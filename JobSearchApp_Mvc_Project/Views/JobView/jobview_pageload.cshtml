@@ -1,0 +1,241 @@
+@model JobSearchApp_Mvc_Project.Models.Jobsearch
+@{
+    ViewBag.Title = "jobview_pageload";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .search-container {
+        max-width: 1200px;
+        margin: 30px auto;
+        padding: 0 20px;
+    }
+
+    .page-header-box {
+        margin-bottom: 25px;
+    }
+
+    .page-header-box h2 {
+        color: #1e293b;
+        font-weight: 700;
+        font-size: 26px;
+        letter-spacing: -0.5px;
+    }
+
+    .alert-success-msg {
+        background: #ecfdf5;
+        border: 1px solid #a7f3d0;
+        color: #065f46;
+        padding: 12px 16px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        font-weight: 500;
+    }
+
+    .search-filter-card {
+        background-color: #f1f5f9;
+        border: 1px solid #cbd5e1;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 30px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    }
+
+    .search-filter-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 12px 0;
+    }
+
+    .search-input {
+        width: 100%;
+        padding: 10px 14px;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        font-size: 14px;
+        outline: none;
+        box-sizing: border-box;
+        background: #ffffff;
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .search-input:focus {
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+    }
+
+    .search-btn {
+        background-color: #1e3a8a;
+        color: #ffffff;
+        padding: 10px 24px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 14px;
+        transition: background-color 0.2s;
+    }
+
+    .search-btn:hover {
+        background-color: #172554;
+    }
+
+    .job-table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #ffffff;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    }
+
+    .job-table th {
+        background-color: #0f172a;
+        color: #ffffff;
+        padding: 14px 16px;
+        font-size: 14px;
+        font-weight: 600;
+        text-align: left;
+    }
+
+    .job-table td {
+        padding: 14px 16px;
+        border-bottom: 1px solid #e2e8f0;
+        color: #334155;
+        font-size: 14px;
+        vertical-align: middle;
+    }
+
+    .job-table tr:hover {
+        background-color: #f8fafc;
+    }
+
+    .job-title-highlight {
+        font-weight: 600;
+        color: #1e40af;
+    }
+
+    .button, .apply-button {
+        display: inline-block;
+        background-color: #2563eb;
+        color: #ffffff !important;
+        padding: 8px 18px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 13px;
+        transition: background-color 0.2s, transform 0.1s;
+    }
+
+    .button:hover, .apply-button:hover {
+        background-color: #1d4ed8;
+        transform: translateY(-1px);
+    }
+
+    .no-jobs-box {
+        background: #ffffff;
+        padding: 40px;
+        text-align: center;
+        border-radius: 8px;
+        color: #64748b;
+        border: 1px dashed #cbd5e1;
+    }
+</style>
+
+<div class="search-container">
+    <div class="page-header-box">
+        <h2>Explore Opportunities : Find Your Dream Job</h2>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert-success-msg">
+            &#10004; @TempData["SuccessMessage"]
+        </div>
+    }
+
+    <div class="search-filter-card">
+        @using (Html.BeginForm("searchjob_click", "JobView", FormMethod.Post))
+        {
+            <table class="search-filter-table">
+                <tr>
+                    <td style="width: 28%;">
+                        @Html.TextBoxFor(m => m.insertse.Job_Skills, new { @class = "search-input", placeholder = "Skills (e.g. C#, ASP.NET, Java)" })
+                    </td>
+                    <td style="width: 28%;">
+                        @Html.TextBoxFor(m => m.insertse.Job_Experience, new { @class = "search-input", placeholder = "Experience (e.g. 2, 3)" })
+                    </td>
+                    <td style="width: 28%;">
+                        @Html.TextBoxFor(m => m.insertse.Job_Location, new { @class = "search-input", placeholder = "Location (e.g. Kochi, Bangalore)" })
+                    </td>
+                    <td style="width: 16%; text-align: right;">
+                        <input type="submit" value="Search" class="search-btn buttons" style="background-color: navy; color: white; padding: 10px 20px;" />
+                    </td>
+                </tr>
+            </table>
+        }
+    </div>
+
+    @if (Model != null && Model.selectjob != null && Model.selectjob.Count > 0)
+    {
+        <table class="job-table table w3-container">
+            <thead>
+                <tr>
+                    <th><label>Company</label></th>
+                    <th><label>Job Title</label></th>
+                    <th><label>Qualification</label></th>
+                    <th><label>Experience</label></th>
+                    <th><label>Skills</label></th>
+                    <th><label>Salary</label></th>
+                    <th><label>End Date</label></th>
+                    <th><label>Location</label></th>
+                    <th><label>Action</label></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.selectjob)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Company_id)
+                        </td>
+                        <td class="job-title-highlight">
+                            @Html.DisplayFor(modelItem => item.Job_Tittle)
+                        </td>
+                        <td>
+                            <span style="background: #e0f2fe; color: #0369a1; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: 600;">
+                                @(string.IsNullOrEmpty(item.jobtype_name) ? "-" : item.jobtype_name)
+                            </span>
+                        </td>
+                        <td>
+                            @(item.Job_Experience != null ? item.Job_Experience + " Yrs" : "-")
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Job_Skills)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Job_Salary)
+                        </td>
+                        <td>
+                            @item.Job_enddate.ToString("MM/dd/yyyy")
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Job_Location)
+                        </td>
+                        <td>
+                            @Html.ActionLink("ApplyNow", "Apllication_load", "AddApplication", new { jid = item.Job_id, cid = item.Company_id }, new { @class = "button apply-button" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="no-jobs-box">
+            <h3>No jobs matched your search criteria</h3>
+            <p>Try clearing or modifying the search filters above to view other available positions.</p>
+        </div>
+    }
+</div>
+

@@ -1,0 +1,198 @@
+@model JobSearchApp_Mvc_Project.Models.JobInsert
+
+@{
+    ViewBag.Title = "Insert Job Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .job-box {
+        max-width: 650px;
+        margin: 25px auto;
+        background: #ffffff;
+        padding: 30px 40px;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .job-box h2 {
+        color: #2c3e50;
+        margin-bottom: 20px;
+        text-align: center;
+        border-bottom: 2px solid #3498db;
+        padding-bottom: 10px;
+    }
+    .form-group {
+        margin-bottom: 16px;
+    }
+    .form-group label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 5px;
+        color: #333;
+    }
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 14px;
+    }
+    .form-row {
+        display: flex;
+        gap: 15px;
+    }
+    .form-row .form-group {
+        flex: 1;
+    }
+    .checkbox-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        padding: 8px 0;
+    }
+    .checkbox-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 14px;
+        cursor: pointer;
+        background: #f8f9fa;
+        padding: 6px 12px;
+        border-radius: 4px;
+        border: 1px solid #e2e8f0;
+    }
+    .btn-submit {
+        width: 100%;
+        padding: 12px;
+        background: #27ae60;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+    .btn-submit:hover {
+        background: #219150;
+    }
+    .alert-success {
+        padding: 12px;
+        background: #d4edda;
+        color: #155724;
+        border-radius: 5px;
+        text-align: center;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+    .text-danger {
+        color: #e74c3c;
+        font-size: 13px;
+        display: block;
+        margin-top: 3px;
+    }
+</style>
+
+<div class="job-box">
+    <h2>Add Job Details</h2>
+
+    @if (!string.IsNullOrEmpty(Model?.msg))
+    {
+        <div class="alert-success">
+            @Model.msg
+        </div>
+    }
+
+    @using (Html.BeginForm("Insert_click", "JobInsert", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.JobTitle, "Job Title")
+            @Html.TextBoxFor(m => m.JobTitle, new { @class = "form-control", placeholder = "Enter Job Title (e.g. Dot Net Developer)" })
+            @Html.ValidationMessageFor(m => m.JobTitle, "", new { @class = "text-danger" })
+        </div>
+
+
+        <div class="form-row">
+            <div class="form-group">
+                @Html.LabelFor(m => m.JobExperience, "Experience (Years)")
+                @Html.TextBoxFor(m => m.JobExperience, new { @class = "form-control", placeholder = "e.g. 2" })
+                @Html.ValidationMessageFor(m => m.JobExperience, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Vacancies, "Vacancies")
+                @Html.TextBoxFor(m => m.Vacancies, new { @class = "form-control", type = "number", placeholder = "e.g. 5" })
+                @Html.ValidationMessageFor(m => m.Vacancies, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.JobLocation, "Location")
+            @Html.TextBoxFor(m => m.JobLocation, new { @class = "form-control", placeholder = "Enter Location" })
+            @Html.ValidationMessageFor(m => m.JobLocation, "", new { @class = "text-danger" })
+        </div>
+
+        <!-- CheckBoxList for Qualification -->
+        <div class="form-group">
+            <label>Qualification (Select all that apply):</label>
+            <div class="checkbox-group">
+                @if (Model?.MyFavouriteQual != null)
+                {
+                    foreach (var item in Model.MyFavouriteQual)
+                    {
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="selectedQual" value="@item.Text" />
+                            @item.Text
+                        </label>
+                    }
+                }
+            </div>
+        </div>
+
+        <!-- Skills: Text Box to write skills + Checkbox list for common skills -->
+        <div class="form-group">
+            @Html.LabelFor(m => m.Skills, "Skills (Write skills)")
+            @Html.TextBoxFor(m => m.Skills, new { @class = "form-control", placeholder = "Type skills e.g. C#, ASP.NET, SQL Server, Web API" })
+            @Html.ValidationMessageFor(m => m.Skills, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            <label>Common Skills (Select to add):</label>
+            <div class="checkbox-group">
+                @if (Model?.MyFavouriteSkill != null)
+                {
+                    foreach (var item in Model.MyFavouriteSkill)
+                    {
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="selectedSkill" value="@item.Text" />
+                            @item.Text
+                        </label>
+                    }
+                }
+            </div>
+        </div>
+
+        <!-- Date Type Inputs -->
+        <div class="form-row">
+            <div class="form-group">
+                @Html.LabelFor(m => m.StartDate, "Start Date")
+                @Html.TextBoxFor(m => m.StartDate, new { @type = "date", @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.StartDate, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.EndDate, "End Date")
+                @Html.TextBoxFor(m => m.EndDate, new { @type = "date", @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.EndDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Insert Job" class="btn-submit" />
+        </div>
+    }
+</div>
+

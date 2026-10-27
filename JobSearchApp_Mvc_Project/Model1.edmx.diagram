@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ae7de9c7d30245e098da6e3ba4eb425a" Name="Diagram1">
+        <EntityTypeShape EntityType="MVCProjectJobSearchModel.Company" Width="1.5" PointX="0.75" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MVCProjectJobSearchModel.Job" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="MVCProjectJobSearchModel.JobApplication" Width="1.5" PointX="5.25" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MVCProjectJobSearchModel.LoginTable" Width="1.5" PointX="5.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MVCProjectJobSearchModel.UserTable" Width="1.5" PointX="3" PointY="6" IsExpanded="true" />
+        <AssociationConnector Association="MVCProjectJobSearchModel.FK_Job_Company" ManuallyRouted="false" />
+        <AssociationConnector Association="MVCProjectJobSearchModel.FK_JobApp_Job" ManuallyRouted="false" />
+        <AssociationConnector Association="MVCProjectJobSearchModel.FK_JobApp_User" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

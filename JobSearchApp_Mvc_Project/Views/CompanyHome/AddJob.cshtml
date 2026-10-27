@@ -1,0 +1,169 @@
+@model JobSearchApp_Mvc_Project.Models.JobInsert
+
+@{
+    ViewBag.Title = "Post New Job";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .job-form-container {
+        max-width: 650px;
+        margin: 30px auto;
+        background: #ffffff;
+        padding: 35px 40px;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .job-form-header {
+        border-bottom: 2px solid #ecf0f1;
+        padding-bottom: 15px;
+        margin-bottom: 25px;
+    }
+    .job-form-header h2 {
+        color: #2c3e50;
+        font-size: 24px;
+    }
+    .form-group {
+        margin-bottom: 20px;
+    }
+    .form-group label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 6px;
+        color: #333;
+    }
+    .form-control {
+        width: 100%;
+        padding: 11px 13px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+        font-size: 14px;
+        font-family: inherit;
+    }
+    .form-control:focus {
+        border-color: #3498db;
+        outline: none;
+    }
+    .form-row {
+        display: flex;
+        gap: 20px;
+    }
+    .form-row .form-group {
+        flex: 1;
+    }
+    .text-danger {
+        color: #e74c3c;
+        font-size: 13px;
+        margin-top: 4px;
+        display: block;
+    }
+    .btn-submit {
+        background-color: #27ae60;
+        color: white;
+        padding: 13px 25px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.2s;
+        width: 100%;
+    }
+    .btn-submit:hover {
+        background-color: #219150;
+    }
+    .alert-success {
+        padding: 12px;
+        background-color: #d4edda;
+        color: #155724;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        text-align: center;
+        font-weight: bold;
+    }
+    .back-link {
+        display: inline-block;
+        margin-top: 20px;
+        color: #2980b9;
+        text-decoration: none;
+        font-weight: 600;
+    }
+    .back-link:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<div class="job-form-container">
+    <div class="job-form-header">
+        <h2>Post New Job Opportunity</h2>
+        <p style="color: #7f8c8d; font-size: 14px;">Fill in job details to advertise for jobseekers</p>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model?.msg))
+    {
+        <div class="alert-success">
+            @Model.msg
+        </div>
+    }
+
+    @using (Html.BeginForm("AddJob", "CompanyHome", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.JobTitle)
+            @Html.TextBoxFor(m => m.JobTitle, new { @class = "form-control", placeholder = "e.g. Dot Net Developer" })
+            @Html.ValidationMessageFor(m => m.JobTitle, "", new { @class = "text-danger" })
+        </div>
+
+
+        <div class="form-row">
+            <div class="form-group">
+                @Html.LabelFor(m => m.ExperienceYears)
+                @Html.TextBoxFor(m => m.ExperienceYears, new { @class = "form-control", type = "number", min = "0", placeholder = "e.g. 2" })
+                @Html.ValidationMessageFor(m => m.ExperienceYears, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Location)
+                @Html.TextBoxFor(m => m.Location, new { @class = "form-control", placeholder = "e.g. Kochi, Bangalore" })
+                @Html.ValidationMessageFor(m => m.Location, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Qualification)
+            @Html.TextBoxFor(m => m.Qualification, new { @class = "form-control", placeholder = "e.g. BTech, MCA, BSc CS" })
+            @Html.ValidationMessageFor(m => m.Qualification, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Skills)
+            @Html.TextBoxFor(m => m.Skills, new { @class = "form-control", placeholder = "e.g. C#, ASP.NET MVC, SQL Server" })
+            @Html.ValidationMessageFor(m => m.Skills, "", new { @class = "text-danger" })
+        </div>
+
+        <!-- Date Type Inputs (HTML5 Date Pickers) -->
+        <div class="form-row">
+            <div class="form-group">
+                @Html.LabelFor(m => m.StartDate)
+                @Html.TextBoxFor(m => m.StartDate, "{0:yyyy-MM-dd}", new { @type = "date", @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.StartDate, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.EndDate)
+                @Html.TextBoxFor(m => m.EndDate, "{0:yyyy-MM-dd}", new { @type = "date", @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.EndDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Submit & Post Job" class="btn-submit" />
+        </div>
+    }
+
+    <a href="@Url.Action("CompanyHome", "CompanyHome")" class="back-link">&larr; Back to Company Dashboard</a>
+</div>
+

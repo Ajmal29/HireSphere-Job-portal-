@@ -1,0 +1,48 @@
+﻿@model JobSearchApp_Mvc_Project.Models.ChangePwdCls
+
+@{
+    ViewBag.Title = "pwd_Load";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>pwd_Load</h2>
+
+<div>
+    @using (Html.BeginForm("pwd_Click", "ChangePwdDB", FormMethod.Post))
+    {
+        <div>
+            <label>Old Password:</label>
+        </div>
+        <div>
+            @Html.TextBoxFor(m => m.OldPassword)
+        </div>
+
+        <div>
+            <label>New Password:</label>
+        </div>
+        <div>
+            @Html.PasswordFor(m => m.NewPassword)
+            @Html.ValidationMessageFor(m => m.NewPassword)
+        </div>
+
+        <div>
+            <label>Confirm Password:</label>
+        </div>
+        <div>
+            @Html.PasswordFor(m => m.ConfirmPassword)
+            @Html.ValidationMessageFor(m => m.ConfirmPassword)
+        </div>
+
+        <div>
+            <input type="submit" value="Change Password" />
+            @Html.DisplayFor(m => m.msg)
+        </div>
+        <br />
+        <div>
+            @Html.ActionLink("Back to Profile", "Profile_Load", "UserProfileDB")
+        </div>
+        <div>
+            @Html.ActionLink("Back to Home Page", "Home", "LoginDB")
+        </div>
+    }
+</div>

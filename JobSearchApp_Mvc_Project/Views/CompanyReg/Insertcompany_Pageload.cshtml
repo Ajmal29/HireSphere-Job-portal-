@@ -1,0 +1,160 @@
+﻿@model JobSearchApp_Mvc_Project.Models.CompanyInsert
+
+@{
+    ViewBag.Title = "Company Registration";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Company Registration</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f4f7f6;
+            padding: 20px;
+        }
+
+        .reg-container {
+            max-width: 500px;
+            margin: 30px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+            .form-group label {
+                display: block;
+                font-weight: 600;
+                margin-bottom: 5px;
+                color: #333;
+            }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .text-danger {
+            color: #e74c3c;
+            font-size: 13px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 12px;
+            background: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+            .btn-submit:hover {
+                background: #219150;
+            }
+
+        .alert-msg {
+            margin-top: 15px;
+            padding: 10px;
+            background: #d4edda;
+            color: #155724;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="reg-container">
+        <h2>Company Registration</h2>
+
+        @using (Html.BeginForm("Insertcompany_click", "CompanyReg", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.name, "Company Name")
+                @Html.TextBoxFor(m => m.name, new { @class = "form-control", placeholder = "Enter Company Name" })
+                @Html.ValidationMessageFor(m => m.name, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.address, "Address")
+                @Html.TextAreaFor(m => m.address, new { @class = "form-control", rows = "3", placeholder = "Enter Address" })
+                @Html.ValidationMessageFor(m => m.address, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.phone, "Phone")
+                @Html.TextBoxFor(m => m.phone, new { @class = "form-control", placeholder = "10 Digit Mobile Number" })
+                @Html.ValidationMessageFor(m => m.phone, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.email, "Email")
+                @Html.TextBoxFor(m => m.email, new { @class = "form-control", type = "email", placeholder = "Enter Email" })
+                @Html.ValidationMessageFor(m => m.email, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.username, "Username / Login Email")
+                @Html.TextBoxFor(m => m.username, new { @class = "form-control", placeholder = "Enter Username" })
+                @Html.ValidationMessageFor(m => m.username, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.pass, "Password")
+                @Html.PasswordFor(m => m.pass, new { @class = "form-control", placeholder = "Enter Password" })
+                @Html.ValidationMessageFor(m => m.pass, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.cpassword, "Confirm Password")
+                @Html.PasswordFor(m => m.cpassword, new { @class = "form-control", placeholder = "Confirm Password" })
+                @Html.ValidationMessageFor(m => m.cpassword, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Register Company" class="btn-submit" />
+            </div>
+
+            if (!string.IsNullOrEmpty(Model?.companymsg))
+            {
+                <div class="alert-msg">
+                    @Model.companymsg
+                </div>
+            }
+
+            <div class="login-link">
+                Already registered? <a href="@Url.Action("Login_Pageload", "Login")">Login here</a>
+            </div>
+        }
+    </div>
+</body>
+</html>
+
+

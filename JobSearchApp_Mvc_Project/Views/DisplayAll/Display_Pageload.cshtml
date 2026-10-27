@@ -1,0 +1,75 @@
+﻿@{
+    ViewBag.Title = "Display All Jobs";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    #t01 {
+        background-color: mediumturquoise;
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    h2 {
+        color: #2c3e50;
+        margin-bottom: 15px;
+    }
+
+    #t01 th {
+        color: white;
+        background-color: coral;
+        padding: 12px;
+        text-align: left;
+    }
+
+    #t01 td {
+        color: dodgerblue;
+        padding: 15px;
+        background-color: white;
+    }
+
+    table, th, td {
+        border: 1px solid black;
+    }
+</style>
+
+<h2>Display All Job Details</h2>
+
+<div>
+    @using (Html.BeginForm("Display_Pageload", "DisplayAll", FormMethod.Get))
+    {
+        <table id="t01" class="table">
+            <tr>
+                <th>Job Title</th>
+                <th>Experience</th>
+                <th>Skills</th>
+                <th>Qualification</th>
+                <th>Location</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Job Status</th>
+            </tr>
+            @{
+                var jobList = ViewBag.userdetails ?? ViewBag.jobdetails;
+            }
+            @if (jobList != null)
+            {
+                foreach (var item in jobList)
+                {
+                    <tr>
+                        <td><strong>@item.JobTitle</strong></td>
+                        <td>@item.ExperienceYears Years</td>
+                        <td>@item.Skills</td>
+                        <td>@item.Qualification</td>
+                        <td>@item.Location</td>
+                        <td>@(item.StartDate != null ? Convert.ToDateTime(item.StartDate).ToString("yyyy-MM-dd") : "-")</td>
+                        <td>@(item.EndDate != null ? Convert.ToDateTime(item.EndDate).ToString("yyyy-MM-dd") : "-")</td>
+                        <td>@item.JobStatus</td>
+                    </tr>
+                }
+            }
+        </table>
+    }
+</div>
+
